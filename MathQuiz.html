@@ -54,7 +54,7 @@
         <label style="margin-left:16px;">结果范围：</label><input type="number" max="1000" min="1" id="tb_resultRange">
         <br />
         <br />
-        <input type="button" style="margin-left:96px;" value="生成题目" onclick="btn_click()">
+        <input type="button" style="margin-left:96px;" value="生成题目" onclick="btn_click()"><label>题目生成后，点击屏幕修改条件。</label>
     </form>
     <div id="div_questions" onclick="div_click()">
 
@@ -232,6 +232,7 @@
 
             function div_click() {
                 document.getElementById('frm_operation').style.display = '';
+                document.getElementById('div_questions').innerHTML = '';
             }
         </script>
 </body>
