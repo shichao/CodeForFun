@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="zh-Hans" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Early Math Questions - by Chao</title>
+    <title>Early Math Question Generator - by Chao</title>
     <style>
         .page {
             padding-top: 10px;
@@ -42,19 +42,21 @@
         <label style="margin-left:32px;">运算符：</label><input type="checkbox" id="ckb_plus" checked>+<input type="checkbox" id="ckb_minus">−<input type="checkbox" id="ckb_multiplication">×<input type="checkbox" id="ckb_division">÷
         <br />
         <br />
-        <label style="margin-left:16px;">每页题数：</label><input type="number" max="100" min="1" id="tb_questionNumber" value="99">
+        <label style="margin-left:16px;">每页题数：</label><input type="number" max="100" min="1" id="tb_questionNumber" value="99" title="每页显示题目数，建议不超过99题">
         <br />
         <br />
-        <label style="margin-left:32px;">总页数：</label><input type="number" max="100" min="1" id="tb_pages" value="1">
+        <label style="margin-left:32px;">总页数：</label><input type="number" max="100" min="1" id="tb_pages" value="1" title="总页数">
         <br />
         <br />
-        <label>操作数范围：</label><input type="number" max="100" min="1" id="tb_operandRange" value="20">
+        <label>操作数范围：</label><input type="number" max="100" min="1" id="tb_operandRange" value="20" title="等式中最大操作数范围">
         <br />
         <br />
-        <label style="margin-left:16px;">结果范围：</label><input type="number" max="1000" min="1" id="tb_resultRange">
+        <label style="margin-left:16px;">结果范围：</label><input type="number" max="1000" min="1" id="tb_resultRange" title="等式最大结果范围">
         <br />
         <br />
-        <input type="button" style="margin-left:96px;" value="生成题目" onclick="btn_click()"><label>题目生成后，点击屏幕修改条件。</label>
+        <input type="button" style="margin-left:96px;" value="生成题目" onclick="btn_click()">
+        <br />
+        <small style="margin-left:86px;">* 题目生成后，点击屏幕修改条件</small>
     </form>
     <div id="div_questions" onclick="div_click()">
 
