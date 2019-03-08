@@ -36,10 +36,7 @@ source ~/.bashrc
 # Create env for jupyter3
 pyenv virtualenv 3.7.2 jupyter3
 export PYENV_VERSION=jupyter3
-pip install jupyter
-pip install jupyterlab
-# SciPy stack
-pip install --upgrade numpy scipy matplotlib ipython jupyter pandas sympy nose
+pip install --upgrade numpy scipy matplotlib ipython jupyter jupyterlab pandas sympy nose
 python -m ipykernel install --user
 pip install ipywidgets
 jupyter nbextension enable --py widgetsnbextension --sys-prefix
