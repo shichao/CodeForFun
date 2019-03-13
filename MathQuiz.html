@@ -68,6 +68,13 @@
                 Multiplication : 4,
                 Division : 8 
             };
+
+            var OperatorSymbol = {
+                1: '+',
+                2: '−',
+                4: '×',
+                8: '÷'
+            };
     
             function generateQuestions(operator, number, pages, operandRange, resultRange) {
                 let result = [];
@@ -100,13 +107,14 @@
                             }
                             //2. find qualified question
                             if(resultRange && resultRange > 0){
-                                while(o < Operator.Multiplication ? (repo[repoIdx].sum > resultRange ) : (repo[repoIdx].multi > resultRange) ){
+                                while(repoIdx < repo.length && (o < Operator.Multiplication ? (repo[repoIdx].sum > resultRange ) : (repo[repoIdx].multi > resultRange))){
                                     repoIdx ++;
                                 }
-                            }
+                            }                
                             //
                             if(repoIdx >=  repo.length){
-                                window.alert(`题库中已无合适题目，请检查参数设定后重试。题库总题数：${repo.length}。`);
+                                let numberneeds = operatorArray.length > 0 ? numberPerOperator : (numberPerOperator + number % numberPerOperator); 
+                                window.alert(`题库中已无合适题目，请检查参数设定后重试。运算符：${OperatorSymbol[o]}，题库总题数：${p.length}，所需题目数：${numberneeds}。`);
                                 return;
                             }
                             //3. add question
@@ -206,30 +214,30 @@
     
                 //2. get questions
                 let questions = generateQuestions(operator, number, pages, operandRange, resultRange);
-                console.log(questions);
-                
-                //3. print questions
-                let div = document.getElementById('div_questions');
-                let html = '';
-                for(let i = 0; i < questions.length; i++) {
-                    //shuffle questions
-                    let qs = questions[i];
-                    Shuffle(qs);
-                    //generate dom
-                    //var d = document.createElement('div');
-                    html += '<div class="page">';
-                    html += '<ul>';
-                    for( var q of qs){
-                        html += `<li><span class="question">${q}</span></li>`;
+                if(questions) {
+                    //3. print questions
+                    let div = document.getElementById('div_questions');
+                    let html = '';
+                    for(let i = 0; i < questions.length; i++) {
+                        //shuffle questions
+                        let qs = questions[i];
+                        Shuffle(qs);
+                        //generate dom
+                        //var d = document.createElement('div');
+                        html += '<div class="page">';
+                        html += '<ul>';
+                        for( var q of qs){
+                            html += `<li><span class="question">${q}</span></li>`;
+                        }
+                        html += '</ul>';
+                        html += '</div>';
                     }
-                    html += '</ul>';
-                    html += '</div>';
+
+                    div.innerHTML = html;
+
+                    //4. hide form
+                    document.getElementById('frm_operation').style.display = 'none';
                 }
-
-                div.innerHTML = html;
-
-                //4. hide form
-                document.getElementById('frm_operation').style.display = 'none';
             }
 
             function div_click() {
