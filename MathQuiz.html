@@ -114,10 +114,10 @@
             };
 
             var OperatorSymbol = {
-                1: "+",
-                2: "−",
-                4: "×",
-                8: "÷"
+                "1": "+",
+                "2": "−",
+                "4": "×",
+                "8": "÷"
             };
 
             function generateQuestions(
@@ -184,11 +184,11 @@
                                         : numberPerOperator +
                                           (number % numberPerOperator);
                                 window.alert(
-                                    `题库中已无合适题目，请检查参数设定后重试。运算符：${
-                                        OperatorSymbol[o]
-                                    }，题库总题数：${
-                                        p.length
-                                    }，所需题目数：${numberneeds}。`
+                                    "题库中已无合适题目，请检查参数设定后重试。运算符：" +
+                                        OperatorSymbol[o] +
+                                        "，题库总题数：" +
+                                        p.length +
+                                        "，所需题目数：${numberneeds}。"
                                 );
                                 return;
                             }
@@ -204,13 +204,37 @@
             function generateQuestion(operator, item) {
                 switch (operator) {
                     case Operator.Plus:
-                        return `${item.left} + ${item.right} =`;
+                        return (
+                            "" +
+                            item.left +
+                            OperatorSymbol[Operator.Plus] +
+                            item.right +
+                            "="
+                        );
                     case Operator.Minus:
-                        return `${item.sum} − ${item.left} =`;
+                        return (
+                            "" +
+                            item.sum +
+                            OperatorSymbol[Operator.Minus] +
+                            item.left +
+                            ""
+                        );
                     case Operator.Multiplication:
-                        return `${item.left} × ${item.right} =`;
+                        return (
+                            "" +
+                            item.left +
+                            OperatorSymbol[Operator.Multiplication] +
+                            item.right +
+                            "="
+                        );
                     case Operator.Division:
-                        return `${item.multi} ÷ ${item.left} =`;
+                        return (
+                            "" +
+                            item.multi +
+                            OperatorSymbol[Operator.Division] +
+                            item.left +
+                            "="
+                        );
                     default:
                         return "";
                 }
@@ -309,8 +333,12 @@
                         //var d = document.createElement('div');
                         html += '<div class="page">';
                         html += "<ul>";
-                        for (var q of qs) {
-                            html += `<li><span class="question">${q}</span></li>`;
+                        for (let j = 0; j < qs.length; j++) {
+                            let q = qs[j];
+                            html +=
+                                '<li><span class="question">' +
+                                q +
+                                "</span></li>";
                         }
                         html += "</ul>";
                         html += "</div>";
