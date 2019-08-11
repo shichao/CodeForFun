@@ -1,80 +1,145 @@
 <!DOCTYPE html>
 
 <html lang="zh-Hans" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Early Math Question Generator - by Chao</title>
-    <style>
-        .page {
-            padding-top: 10px;
-            page-break-after: always;
-            font-family: Arial, Helvetica, sans-serif;
-            position: relative;
-            height:800px;
-        }
-        ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        li {
-            list-style: none;
-            float: left;
-            width: 33%;
-            margin: 0;
-            padding: 0 0 11px 0px;
-        }
-        .question {
-            padding-left: 40px;
-            font-size: 16px;
-        }
-        
-        .lop {
-            margin-right: 10px;
-        }
-        .rop {
-            margin-left: 10px;
-        }
-    </style>
-</head>
-<body>
-    <form id="frm_operation">
-        <label style="margin-left:32px;">运算符：</label><input type="checkbox" id="ckb_plus" checked>+<input type="checkbox" id="ckb_minus">−<input type="checkbox" id="ckb_multiplication">×<input type="checkbox" id="ckb_division">÷
-        <br />
-        <br />
-        <label style="margin-left:16px;">每页题数：</label><input type="number" max="100" min="1" id="tb_questionNumber" value="99" title="每页显示题目数，建议不超过99题">
-        <br />
-        <br />
-        <label style="margin-left:32px;">总页数：</label><input type="number" max="100" min="1" id="tb_pages" value="1" title="总页数">
-        <br />
-        <br />
-        <label>操作数范围：</label><input type="number" max="100" min="1" id="tb_operandRange" value="20" title="等式中最大操作数范围">
-        <br />
-        <br />
-        <label style="margin-left:16px;">结果范围：</label><input type="number" max="1000" min="1" id="tb_resultRange" title="等式最大结果范围">
-        <br />
-        <br />
-        <input type="button" style="margin-left:96px;" value="生成题目" onclick="btn_click()">
-        <br />
-        <small style="margin-left:86px;">* 题目生成后，点击屏幕修改条件</small>
-    </form>
-    <div id="div_questions" onclick="div_click()">
+    <head>
+        <meta charset="utf-8" />
+        <title>Early Math Question Generator - by Chao</title>
+        <style>
+            .page {
+                padding-top: 10px;
+                page-break-after: always;
+                font-family: Arial, Helvetica, sans-serif;
+                position: relative;
+                height: 800px;
+            }
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            li {
+                list-style: none;
+                float: left;
+                width: 33%;
+                margin: 0;
+                padding: 0 0 11px 0px;
+            }
+            .question {
+                padding-left: 40px;
+                font-size: 16px;
+            }
 
-    </div>
-    <script>
+            .lop {
+                margin-right: 10px;
+            }
+            .rop {
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <form id="frm_operation">
+            <label style="margin-left:32px;">运算符：</label>
+            <input type="checkbox" id="ckb_plus" checked />+
+            <input type="checkbox" id="ckb_minus" />−
+            <input type="checkbox" id="ckb_multiplication" />×
+            <input type="checkbox" id="ckb_division" />÷
+            <br />
+            <br />
+            <label style="margin-left:16px;">每页题数：</label>
+            <input
+                type="number"
+                max="100"
+                min="1"
+                id="tb_questionNumber"
+                value="99"
+                title="每页显示题目数，建议不超过99题"
+            />
+            <br />
+            <br />
+            <label style="margin-left:32px;">总页数：</label>
+            <input
+                type="number"
+                max="100"
+                min="1"
+                id="tb_pages"
+                value="1"
+                title="总页数"
+            />
+            <br />
+            <br />
+            <label>操作数范围：</label>
+            <input
+                type="number"
+                max="100"
+                min="1"
+                id="tb_operandRange"
+                value="20"
+                title="等式中最大操作数范围"
+            />
+            <br />
+            <br />
+            <label>是否包含零：</label>
+            <input type="checkbox" id="ckb_withZero" />
+            <br />
+            <br />
+            <label style="margin-left:16px;">结果范围：</label>
+            <input
+                type="number"
+                max="1000"
+                min="1"
+                id="tb_resultRange"
+                title="等式最大结果范围"
+            />
+            <br />
+            <br />
+            <input
+                type="button"
+                style="margin-left:96px;"
+                value="生成题目"
+                onclick="btn_click()"
+            />
+            <br />
+            <small style="margin-left:86px;"
+                >* 题目生成后，点击屏幕修改条件</small
+            >
+        </form>
+        <div id="div_questions" onclick="div_click()"></div>
+        <script>
             var Operator = {
-                Plus : 1,
-                Minus : 2,
-                Multiplication : 4,
-                Division : 8 
+                Plus: 1,
+                Minus: 2,
+                Multiplication: 4,
+                Division: 8
             };
-    
-            function generateQuestions(operator, number, pages, operandRange, resultRange) {
+
+            var OperatorSymbol = {
+                "1": "+",
+                "2": "−",
+                "4": "×",
+                "8": "÷"
+            };
+
+            function generateQuestions(
+                operator,
+                number,
+                pages,
+                operandRange,
+                resultRange
+            ) {
                 let result = [];
                 //1. quiz repo
                 let repo = [];
-                for(let i = 0; i < operandRange; i ++){
-                    for(let j = 0; j < operandRange; j++){
+                for (
+                    let i = isChecked("ckb_withZero") ? -1 : 0;
+                    i < operandRange;
+                    i++
+                ) {
+                    for (
+                        let j = isChecked("ckb_withZero") ? -1 : 0;
+                        j < operandRange;
+                        j++
+                    ) {
                         repo[i * operandRange + j] = {
                             left: i + 1,
                             right: j + 1,
@@ -84,76 +149,121 @@
                     }
                 }
                 //2. generate questions
-                for(let i = 0; i < pages; i++){
+                for (let i = 0; i < pages; i++) {
                     let operatorArray = operatorToArray(operator);
                     let o;
-                    if(operatorArray.length > 0){
-                        let numberPerOperator = Math.floor(number / operatorArray.length);
+                    if (operatorArray.length > 0) {
+                        let numberPerOperator = Math.floor(
+                            number / operatorArray.length
+                        );
                         let p = [];
-                        for(let j = 0; j < number; j++){
+                        for (let j = 0; j < number; j++) {
                             //1. pop up a operator
-                            if(j % numberPerOperator === 0) {
+                            if (j % numberPerOperator === 0) {
                                 Shuffle(repo);
                                 Shuffle(operatorArray);
                                 o = operatorArray.pop() || o;
                                 repoIdx = 0;
                             }
                             //2. find qualified question
-                            if(resultRange && resultRange > 0){
-                                while(o < Operator.Multiplication ? (repo[repoIdx].sum > resultRange ) : (repo[repoIdx].multi > resultRange) ){
-                                    repoIdx ++;
+                            if (resultRange && resultRange > 0) {
+                                while (
+                                    repoIdx < repo.length &&
+                                    (o < Operator.Multiplication
+                                        ? repo[repoIdx].sum > resultRange
+                                        : repo[repoIdx].multi > resultRange)
+                                ) {
+                                    repoIdx++;
                                 }
                             }
                             //
-                            if(repoIdx >=  repo.length){
-                                window.alert(`题库中已无合适题目，请检查参数设定后重试。题库总题数：${repo.length}。`);
+                            if (repoIdx >= repo.length) {
+                                let numberneeds =
+                                    operatorArray.length > 0
+                                        ? numberPerOperator
+                                        : numberPerOperator +
+                                          (number % numberPerOperator);
+                                window.alert(
+                                    "题库中已无合适题目，请检查参数设定后重试。运算符：" +
+                                        OperatorSymbol[o] +
+                                        "，题库总题数：" +
+                                        p.length +
+                                        "，所需题目数：${numberneeds}。"
+                                );
                                 return;
                             }
                             //3. add question
                             p.push(generateQuestion(o, repo[repoIdx++]));
                         }
-                        result.push(p);   
+                        result.push(p);
                     }
                 }
                 return result;
             }
-    
+
             function generateQuestion(operator, item) {
-                switch(operator) {
+                switch (operator) {
                     case Operator.Plus:
-                        return `${item.left} + ${item.right} =`;
+                        return (
+                            "" +
+                            item.left +
+                            OperatorSymbol[Operator.Plus] +
+                            item.right +
+                            "="
+                        );
                     case Operator.Minus:
-                        return `${item.sum} − ${item.left} =`;
+                        return (
+                            "" +
+                            item.sum +
+                            OperatorSymbol[Operator.Minus] +
+                            item.left +
+                            ""
+                        );
                     case Operator.Multiplication:
-                        return `${item.left} × ${item.right} =`;
+                        return (
+                            "" +
+                            item.left +
+                            OperatorSymbol[Operator.Multiplication] +
+                            item.right +
+                            "="
+                        );
                     case Operator.Division:
-                        return `${item.multi} ÷ ${item.left} =`;
+                        return (
+                            "" +
+                            item.multi +
+                            OperatorSymbol[Operator.Division] +
+                            item.left +
+                            "="
+                        );
                     default:
-                        return '';
+                        return "";
                 }
             }
-    
+
             function operatorToArray(operator) {
                 var result = [];
-                if((operator & Operator.Plus) === Operator.Plus)
-                    result.push(Operator.Plus)
-                if((operator & Operator.Minus) === Operator.Minus)
-                    result.push(Operator.Minus)
-                if((operator & Operator.Multiplication) === Operator.Multiplication)
-                    result.push(Operator.Multiplication)
-                if((operator & Operator.Division) === Operator.Division)
-                    result.push(Operator.Division)
+                if ((operator & Operator.Plus) === Operator.Plus)
+                    result.push(Operator.Plus);
+                if ((operator & Operator.Minus) === Operator.Minus)
+                    result.push(Operator.Minus);
+                if (
+                    (operator & Operator.Multiplication) ===
+                    Operator.Multiplication
+                )
+                    result.push(Operator.Multiplication);
+                if ((operator & Operator.Division) === Operator.Division)
+                    result.push(Operator.Division);
                 return result;
             }
-    
+
             function getValue(id) {
                 return document.getElementById(id).value;
             }
-    
+
             function isChecked(id) {
                 return document.getElementById(id).checked;
             }
-    
+
             function Shuffle(data) {
                 for (var i = 0; i < data.length; i++) {
                     var r = Math.floor(Math.random() * i);
@@ -162,80 +272,90 @@
                     data[r] = tmp;
                 }
             }
-    
+
             function btn_click() {
                 //1. verify parameters
                 let operator = 0;
-                if(isChecked('ckb_plus'))
-                    operator = operator | Operator.Plus;
-                if(isChecked('ckb_minus'))
+                if (isChecked("ckb_plus")) operator = operator | Operator.Plus;
+                if (isChecked("ckb_minus"))
                     operator = operator | Operator.Minus;
-                if(isChecked('ckb_multiplication'))
+                if (isChecked("ckb_multiplication"))
                     operator = operator | Operator.Multiplication;
-                if(isChecked('ckb_division'))
+                if (isChecked("ckb_division"))
                     operator = operator | Operator.Division;
-    
-                if(operator <= 0){
-                    window.alert('请选择运算符。');
+
+                if (operator <= 0) {
+                    window.alert("请选择运算符。");
                     return;
                 }
-    
+
                 let number = 20;
-                let _number = Number(getValue('tb_questionNumber'));
-                if(_number > 0) {
+                let _number = Number(getValue("tb_questionNumber"));
+                if (_number > 0) {
                     number = _number;
                 }
-    
+
                 let pages = 1;
-                let _pages = Number(getValue('tb_pages'));
-                if(_pages > 0) {
+                let _pages = Number(getValue("tb_pages"));
+                if (_pages > 0) {
                     pages = _pages;
                 }
-    
+
                 let operandRange = 100;
-                let _operandRange = Number(getValue('tb_operandRange'));
-                if(_operandRange > 0) {
+                let _operandRange = Number(getValue("tb_operandRange"));
+                if (_operandRange > 0) {
                     operandRange = _operandRange;
                 }
-    
+
                 let resultRange = 0;
-                let _resultRange = Number(getValue('tb_resultRange'));
-                if(_resultRange > 0) {
+                let _resultRange = Number(getValue("tb_resultRange"));
+                if (_resultRange > 0) {
                     resultRange = _resultRange;
                 }
-    
+
                 //2. get questions
-                let questions = generateQuestions(operator, number, pages, operandRange, resultRange);
-                console.log(questions);
-                
-                //3. print questions
-                let div = document.getElementById('div_questions');
-                let html = '';
-                for(let i = 0; i < questions.length; i++) {
-                    //shuffle questions
-                    let qs = questions[i];
-                    Shuffle(qs);
-                    //generate dom
-                    //var d = document.createElement('div');
-                    html += '<div class="page">';
-                    html += '<ul>';
-                    for( var q of qs){
-                        html += `<li><span class="question">${q}</span></li>`;
+                let questions = generateQuestions(
+                    operator,
+                    number,
+                    pages,
+                    operandRange,
+                    resultRange
+                );
+                if (questions) {
+                    //3. print questions
+                    let div = document.getElementById("div_questions");
+                    let html = "";
+                    for (let i = 0; i < questions.length; i++) {
+                        //shuffle questions
+                        let qs = questions[i];
+                        Shuffle(qs);
+                        //generate dom
+                        //var d = document.createElement('div');
+                        html += '<div class="page">';
+                        html += "<ul>";
+                        for (let j = 0; j < qs.length; j++) {
+                            let q = qs[j];
+                            html +=
+                                '<li><span class="question">' +
+                                q +
+                                "</span></li>";
+                        }
+                        html += "</ul>";
+                        html += "</div>";
                     }
-                    html += '</ul>';
-                    html += '</div>';
+
+                    div.innerHTML = html;
+
+                    //4. hide form
+                    document.getElementById("frm_operation").style.display =
+                        "none";
                 }
-
-                div.innerHTML = html;
-
-                //4. hide form
-                document.getElementById('frm_operation').style.display = 'none';
             }
 
             function div_click() {
-                document.getElementById('frm_operation').style.display = '';
-                document.getElementById('div_questions').innerHTML = '';
+                document.getElementById("frm_operation").style.display = "";
+                document.getElementById("div_questions").innerHTML = "";
             }
         </script>
-</body>
+    </body>
 </html>
