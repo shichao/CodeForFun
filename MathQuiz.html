@@ -92,7 +92,7 @@
             <input type="checkbox" id="ckb_withZero" />
             <br />
             <br />
-            <label>是否重复：</label>
+            <label>是否允许重复：</label>
             <input type="checkbox" id="ckb_allowDuplicated" />
             <br />
             <br />
@@ -133,29 +133,13 @@
                 "8": "÷"
             };
 
-            function genQuestions(operator, number, operandRange, operandsSpecified, resultRange, allowDuplicated,)
-
-            function generateQuestions(
-                operator,
-                number,
-                pages,
-                operandRange,
-                resultRange
-            ) {
-                let result = [];
+            //generate repo
+            function generateRepo(operandRange) {
                 //1. quiz repo
                 let repo = [];
-                for (
-                    let i = isChecked("ckb_withZero") ? -1 : 0;
-                    i < operandRange;
-                    i++
-                ) {
-                    for (
-                        let j = isChecked("ckb_withZero") ? -1 : 0;
-                        j < operandRange;
-                        j++
-                    ) {
-                        repo[i * operandRange + j] = {
+                for (let i = -1; i < operandRange; i++) {
+                    for (let j = -1; j < operandRange; j++) {
+                        repo[(i + 1) * operandRange + (j + 1)] = {
                             left: i + 1,
                             right: j + 1,
                             sum: i + 1 + j + 1,
@@ -163,54 +147,60 @@
                         };
                     }
                 }
-                //2. generate questions
-                for (let i = 0; i < pages; i++) {
-                    let operatorArray = operatorToArray(operator);
-                    let o;
-                    if (operatorArray.length > 0) {
-                        let numberPerOperator = Math.floor(
-                            number / operatorArray.length
-                        );
-                        let p = [];
-                        for (let j = 0; j < number; j++) {
-                            //1. pop up a operator
-                            if (j % numberPerOperator === 0) {
-                                Shuffle(repo);
-                                Shuffle(operatorArray);
-                                o = operatorArray.pop() || o;
-                                repoIdx = 0;
-                            }
-                            //2. find qualified question
-                            if (resultRange && resultRange > 0) {
-                                while (
-                                    repoIdx < repo.length &&
-                                    (o < Operator.Multiplication
-                                        ? repo[repoIdx].sum > resultRange
-                                        : repo[repoIdx].multi > resultRange)
-                                ) {
-                                    repoIdx++;
+                return repo;
+            }
+
+            //filter repo by filters
+            function filterRepo(repo, filters) {
+                let result = [];
+                if (repo && repo.length) {
+                    for (let i = 0; i < repo.length; i++) {
+                        let q = repo[i];
+                        //filter question
+                        let isValid = true;
+                        if (filters && filters.length) {
+                            for (
+                                let j = 0;
+                                j < filters.length && isValid;
+                                j++
+                            ) {
+                                if (typeof filters[j] === "function") {
+                                    let f = filters[j];
+                                    if (!f(q)) {
+                                        isValid = false;
+                                    }
                                 }
                             }
-                            //
-                            if (repoIdx >= repo.length) {
-                                let numberneeds =
-                                    operatorArray.length > 0
-                                        ? numberPerOperator
-                                        : numberPerOperator +
-                                          (number % numberPerOperator);
-                                window.alert(
-                                    "题库中已无合适题目，请检查参数设定后重试。运算符：" +
-                                        OperatorSymbol[o] +
-                                        "，题库总题数：" +
-                                        p.length +
-                                        "，所需题目数：${numberneeds}。"
-                                );
-                                return;
-                            }
-                            //3. add question
-                            p.push(generateQuestion(o, repo[repoIdx++]));
                         }
-                        result.push(p);
+                        if (isValid) result.push(q);
+                    }
+                }
+                return result;
+            }
+
+            //generate questions
+            function generateQuestions(
+                repo,
+                operator,
+                number,
+                allowDuplicated
+            ) {
+                let result = [];
+                if (repo && repo.length > 0) {
+                    Shuffle(repo);
+
+                    for (
+                        let i = 0;
+                        i < repo.length && result.length < number;
+                        i++
+                    ) {
+                        result.push(generateQuestion(operator, repo[i]));
+                    }
+
+                    //keep add duplicated question if needed and allowed
+                    while (allowDuplicated && result.length < number) {
+                        Shuffle(repo);
+                        result.push(generateQuestion(operator, repo[0]));
                     }
                 }
                 return result;
@@ -322,61 +312,120 @@
                     operandRange = _operandRange;
                 }
 
-                let resultRange = 0;
-                let _resultRange = Number(getValue("tb_resultRange"));
-                if (_resultRange > 0) {
-                    resultRange = _resultRange;
-                }
-
-                let operandsSpecified = {};
+                let operandsSpecified = null;
                 let _operandsSpecifed = getValue("tb_operandsSpecified");
                 if (_operandsSpecifed) {
                     var os = _operandsSpecifed.split(",");
                     for (let i = 0; i < os.length; i++) {
                         let o = Number(os[i]);
                         if (o > -1) {
+                            operandsSpecified = operandsSpecified || {};
                             operandsSpecified[o] = true;
                         }
                     }
                 }
 
-                //2. get questions
-                let questions = generateQuestions(
-                    operator,
-                    number,
-                    pages,
-                    operandRange,
-                    resultRange
-                );
-                if (questions) {
-                    //3. print questions
-                    let div = document.getElementById("div_questions");
-                    let html = "";
-                    for (let i = 0; i < questions.length; i++) {
-                        //shuffle questions
-                        let qs = questions[i];
-                        Shuffle(qs);
-                        //generate dom
-                        //var d = document.createElement('div');
-                        html += '<div class="page">';
-                        html += "<ul>";
-                        for (let j = 0; j < qs.length; j++) {
-                            let q = qs[j];
-                            html +=
-                                '<li><span class="question">' +
-                                q +
-                                "</span></li>";
-                        }
-                        html += "</ul>";
-                        html += "</div>";
-                    }
+                let withZero = isChecked("ckb_withZero");
 
-                    div.innerHTML = html;
+                let allowDuplicated = isChecked("ckb_allowDuplicated");
 
-                    //4. hide form
-                    document.getElementById("frm_operation").style.display =
-                        "none";
+                let resultRange = 0;
+                let _resultRange = Number(getValue("tb_resultRange"));
+                if (_resultRange > 0) {
+                    resultRange = _resultRange;
                 }
+
+                //2. get questions
+                //2.1 generate repo
+                let repo = generateRepo(operandRange);
+                //2.2 filters
+                let zeroFilter = question => {
+                    if (withZero) {
+                        return true;
+                    } else {
+                        return question.left !== 0 && question.right !== 0;
+                    }
+                };
+                let operandsSpecifiedFilter = question => {
+                    if (operandsSpecified) {
+                        return (
+                            operandsSpecified[question.left] ||
+                            operandsSpecified[question.right]
+                        );
+                    }
+                    return true;
+                };
+                let addMinusResultFilter = question => {
+                    if (resultRange > 0) {
+                        return question.sum <= resultRange;
+                    }
+                    return true;
+                };
+                let MultiDivideResultFilter = question => {
+                    if (resultRange > 0) {
+                        return question.multi <= resultRange;
+                    }
+                    return true;
+                };
+
+                let div = document.getElementById("div_questions");
+                let html = "";
+                for (let i = 0; i < pages; i++) {
+                    //get question for the page
+                    let questions = [];
+                    let operatorArray = operatorToArray(operator);
+                    let o;
+                    if (operatorArray.length > 0) {
+                        //question number of each operator
+                        let numberPerOperator = Math.floor(
+                            number / operatorArray.length
+                        );
+                        //shuffle operators
+                        Shuffle(operatorArray);
+
+                        for (let j = 0; j < operatorArray.length; j++) {
+                            o = operatorArray[j];
+                            let repo_o =
+                                o < Operator.Multiplication
+                                    ? filterRepo(repo, [
+                                          zeroFilter,
+                                          operandsSpecifiedFilter,
+                                          addMinusResultFilter
+                                      ])
+                                    : filterRepo(repo, [
+                                          zeroFilter,
+                                          operandsSpecifiedFilter,
+                                          MultiDivideResultFilter
+                                      ]);
+                            let qs = generateQuestions(
+                                repo_o,
+                                o,
+                                j + 1 == operatorArray.length
+                                    ? numberPerOperator +
+                                          (number % operatorArray.length)
+                                    : numberPerOperator,
+                                allowDuplicated
+                            );
+                            questions = questions.concat(qs);
+                        }
+                    }
+                    //print page
+
+                    Shuffle(questions);
+                    html += '<div class="page">';
+                    html += "<ul>";
+                    for (let j = 0; j < questions.length; j++) {
+                        let q = questions[j];
+                        html +=
+                            '<li><span class="question">' + q + "</span></li>";
+                    }
+                    html += "</ul>";
+                    html += "</div>";
+                }
+                div.innerHTML = html;
+
+                //hide form
+                document.getElementById("frm_operation").style.display = "none";
             }
 
             function div_click() {
