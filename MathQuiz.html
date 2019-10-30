@@ -92,6 +92,10 @@
             <input type="checkbox" id="ckb_withZero" />
             <br />
             <br />
+            <label>是否重复：</label>
+            <input type="checkbox" id="ckb_allowDuplicated" />
+            <br />
+            <br />
             <label style="margin-left:16px;">结果范围：</label>
             <input
                 type="number"
@@ -128,6 +132,8 @@
                 "4": "×",
                 "8": "÷"
             };
+
+            function genQuestions(operator, number, operandRange, operandsSpecified, resultRange, allowDuplicated,)
 
             function generateQuestions(
                 operator,
