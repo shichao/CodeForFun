@@ -79,6 +79,15 @@
             />
             <br />
             <br />
+            <label>指定操作数：</label>
+            <input
+                type="string"
+                id="tb_operandsSpecified"
+                value=""
+                title="等式中必须出现的操作数，逗号分隔"
+            />
+            <br />
+            <br />
             <label>是否包含零：</label>
             <input type="checkbox" id="ckb_withZero" />
             <br />
@@ -311,6 +320,18 @@
                 let _resultRange = Number(getValue("tb_resultRange"));
                 if (_resultRange > 0) {
                     resultRange = _resultRange;
+                }
+
+                let operandsSpecified = {};
+                let _operandsSpecifed = getValue("tb_operandsSpecified");
+                if (_operandsSpecifed) {
+                    var os = _operandsSpecifed.split(",");
+                    for (let i = 0; i < os.length; i++) {
+                        let o = Number(os[i]);
+                        if (o > -1) {
+                            operandsSpecified[o] = true;
+                        }
+                    }
                 }
 
                 //2. get questions
