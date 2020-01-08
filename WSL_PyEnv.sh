@@ -1,11 +1,11 @@
 #!/bin/bash -i
 # Update apt
-sudo apt-get update
+sudo apt update
 
 # Install required packages and tools
-sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+xz-utils tk-dev libffi-dev liblzma-dev python-openssl git python-pip
 
 # Install pyenv
 curl https://pyenv.run | bash
@@ -36,7 +36,7 @@ source ~/.bashrc
 # Create env for jupyter3
 pyenv virtualenv 3.7.2 jupyter3
 export PYENV_VERSION=jupyter3
-pip install --upgrade numpy scipy matplotlib ipython jupyter jupyterlab pandas sympy nose
+pip install --upgrade jupyter jupyterlab numpy scipy matplotlib ipython pandas sympy nose
 python -m ipykernel install --user
 pip install ipywidgets
 jupyter nbextension enable --py widgetsnbextension --sys-prefix
