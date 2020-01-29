@@ -12,7 +12,8 @@ sudo apt update
 sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
 xz-utils tk-dev libffi-dev liblzma-dev python-openssl git python-pip \
-apt-transport-https dotnet-sdk-2.1 dotnet-sdk-3.1
+apt-transport-https \
+# dotnet-sdk-2.1 dotnet-sdk-3.1
 
 # Install pyenv
 curl https://pyenv.run | bash
@@ -58,8 +59,8 @@ curl -L http://hbn.link/hb-ipython-startup-script > ~/.ipython/profile_default/s
 source ~/.bashrc
 
 # Install .net kernel
-dotnet tool install --global dotnet-try
-source ~/.bashrc
-dotnet try jupyter install
-jupyter kernelspec list
+# dotnet tool install --global dotnet-try
+# source ~/.bashrc
+# dotnet try jupyter install
+# jupyter kernelspec list
 
