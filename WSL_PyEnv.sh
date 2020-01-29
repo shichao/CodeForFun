@@ -18,7 +18,7 @@ apt-transport-https dotnet-sdk-2.1 dotnet-sdk-3.1
 curl https://pyenv.run | bash
 echo '# pyenv' >> ~/.bashrc
 echo "export PATH=\"${HOME}/.pyenv/bin:\$PATH\"" >> ~/.bashrc
-echo "eval \"\$(pyenv init -)\"" >> ~/.bashrc
+echo "eval \"\$(pyenv init - --no-rehash)\"" >> ~/.bashrc
 echo "eval \"\$(pyenv virtualenv-init -)\"" >> ~/.bashrc
 source ~/.bashrc
 
