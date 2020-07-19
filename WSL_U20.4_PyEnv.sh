@@ -31,6 +31,11 @@ pyenv global 3.7.2
 pip install --upgrade pip
 pip install --upgrade pipenv
 
+# Install virtuanenv plugin
+git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+echo -e 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+source ~/.bashrc
+
 # Create env for jupyter3
 pyenv virtualenv 3.7.2 jupyter3
 
