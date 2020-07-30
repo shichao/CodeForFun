@@ -12,7 +12,7 @@ sudo apt update
 sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
 xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev python-openssl \
-git python3-pip pt-transport-https mc \
+git python3-pip mc \
 # dotnet-sdk-2.1 dotnet-sdk-3.1
 
 # Install pyenv
@@ -24,8 +24,8 @@ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nf
 source ~/.bashrc
 
 # Install python 3
-pyenv install 3.7.2
-pyenv global 3.7.2
+pyenv install 3.8.2
+pyenv global 3.8.2
 
 # Update pip
 pip install --upgrade pip
@@ -37,7 +37,7 @@ echo -e 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 source ~/.bashrc
 
 # Create env for jupyter3
-pyenv virtualenv 3.7.2 jupyter3
+pyenv virtualenv 3.8.2 jupyter3
 
 # Switch to the env
 export PYENV_VERSION=jupyter3
@@ -51,7 +51,7 @@ jupyter nbextension enable --py widgetsnbextension --sys-prefix
 unset PYENV_VERSION
 
 # Ipython profile
-pyenv global 3.7.2 jupyter3
+pyenv global 3.8.2 jupyter3
 ipython profile create
 curl -L http://hbn.link/hb-ipython-startup-script > ~/.ipython/profile_default/startup/00-venv-sitepackages.py
 source ~/.bashrc
