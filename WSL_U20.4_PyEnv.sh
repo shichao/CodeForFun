@@ -56,6 +56,19 @@ ipython profile create
 curl -L http://hbn.link/hb-ipython-startup-script > ~/.ipython/profile_default/startup/00-venv-sitepackages.py
 source ~/.bashrc
 
+# Install Powerline
+sudo apt install -y golang-go fonts-powerline
+go get -u github.com/justjanne/powerline-go
+
+echo -e '# Powerline
+GOPATH=$HOME/go
+function _update_ps1() {
+    PS1="$($GOPATH/bin/powerline-go -error $?)"
+}
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi' >> ~/.bashrc
+source ~/.bashrc
 # Install .net kernel
 # dotnet tool install --global dotnet-try
 # source ~/.bashrc
