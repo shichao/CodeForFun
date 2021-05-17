@@ -4,51 +4,57 @@ GOF是设计模式的经典名著Design Patterns: Elements of Reusable Object-Or
 他们在书本总结了23个设置模式，以下将给出这23个设计模式的简要说明。
 
 # 二、23种设计模式
-## 1、单例（Singleton）模式
 
-## 2、原型（Prototype）模式
+## 构建类（Creational）
 
-## 3、工厂方法（Factory Method）模式
+### 单例（Singleton）模式
 
-## 4、抽象工厂（Abstract Factory）模式
+### 原型（Prototype）模式
 
-## 5、建造者（Builder）模式
+### 工厂方法（Factory Method）模式
 
-## 6、代理（Proxy）模式
+### 抽象工厂（Abstract Factory）模式
+### 建造者（Builder）模式
 
-## 7、适配器（Adapter）模式
+## 结构类（Structural）
 
-## 8、桥接（Bridge）模式
+### 代理（Proxy）模式
 
-## 9、装饰（Decorator）模式
+### 适配器（Adapter）模式
 
-## 10、外观（Facade）模式
+### 桥接（Bridge）模式
 
-## 11、享元（Flyweight）模式
+### 装饰（Decorator）模式
 
-## 12、组合（Composite）模式
+### 外观（Facade）模式
 
-## 13、模板方法（TemplateMethod）模式
+### 享元（Flyweight）模式
 
-## 14、策略（Strategy）模式
+### 组合（Composite）模式
 
-## 15、命令（Command）模式
+## 行为类（Behavioral)
 
-## 16、职责链（Chain of Responsibility）模式
+### 模板方法（TemplateMethod）模式
 
-## 17、状态（State）模式
+### 策略（Strategy）模式
 
-## 18、观察者（Observer）模式
+### 命令（Command）模式
 
-## 19、中介者（Mediator）模式
+### 职责链（Chain of Responsibility）模式
 
-## 20、迭代器（Iterator）模式
+### 状态（State）模式
 
-## 21、访问者（Visitor）模式
+### 观察者（Observer）模式
 
-## 22、备忘录（Memento）模式
+### 中介者（Mediator）模式
 
-## 23、解释器（Interpreter）模式
+### 迭代器（Iterator）模式
+
+### 访问者（Visitor）模式
+
+### 备忘录（Memento）模式
+
+### 解释器（Interpreter）模式
 
 # 三、设计模式原则
 
