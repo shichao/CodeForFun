@@ -1,10 +1,13 @@
 namespace Chao.DesignPatterns.Creational
 {
-    public class AbstractFactory : IAbstractFactory
+    public class AbstractFactory
     {
-        public IProduct Create()
+        public void Run()
         {
-            return new Product();
+            //1. chose concret factory
+            IAbstractFactory factory = new ConcretFactoryA();
+            //2. create product 
+            IProduct product = factory.Create();
         }
     }
 
@@ -13,12 +16,32 @@ namespace Chao.DesignPatterns.Creational
         IProduct Create();
     }
 
+    public class ConcretFactoryA : IAbstractFactory
+    {
+        public IProduct Create()
+        {
+            return new ProductA();
+        }
+    }
+
+    public class ConcretFactoryB : IAbstractFactory
+    {
+        public IProduct Create()
+        {
+            return new ProductB();
+        }
+    }
+
     public interface IProduct
     {
         string Name { get; set; }
     }
 
-    public class Product : IProduct
+    public class ProductA : IProduct
+    {
+        public string Name { get; set; }
+    }
+    public class ProductB : IProduct
     {
         public string Name { get; set; }
     }
