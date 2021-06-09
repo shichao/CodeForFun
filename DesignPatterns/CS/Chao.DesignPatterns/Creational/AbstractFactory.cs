@@ -1,6 +1,6 @@
 namespace Chao.DesignPatterns.Creational
 {
-    public class AbstractFactory
+    public class AbstractFactory : IPattern
     {
         public void Run()
         {
