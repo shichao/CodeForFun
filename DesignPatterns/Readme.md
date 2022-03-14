@@ -9,12 +9,37 @@ GOF是设计模式的经典名著Design Patterns: Elements of Reusable Object-Or
 
 ### 单例（Singleton）模式
 
+public class Product {
+    
+    public static Product Instance {get;set;}
+
+}
+
 ### 原型（Prototype）模式
+
+public interface IProduct {
+
+    public IProduct Clonse();
+
+} 
 
 ### 工厂方法（Factory Method）模式
 
+public class Factory {
+    
+    public IProduct Create() {};
+}
+
 ### 抽象工厂（Abstract Factory）模式
+
+public interface IFactory {
+
+    public IProductA PA();
+    public IProdictB PB();
+}
 ### 建造者（Builder）模式
+
+Director -> Builder -> Build Product
 
 ## 结构类（Structural）
 
