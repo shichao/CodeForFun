@@ -5,7 +5,7 @@ GOF是设计模式的经典名著Design Patterns: Elements of Reusable Object-Or
 
 # 二、23种设计模式
 
-## 构建类（Creational）
+## 构建类（Creational），5种
 
 ### 单例（Singleton）模式
 
@@ -41,43 +41,89 @@ public interface IFactory {
 
 Director -> Builder -> Build Product
 
-## 结构类（Structural）
+## 结构类（Structural），共7种
 
 ### 代理（Proxy）模式
 
+Client -> Proxy -> RealProvider
+
 ### 适配器（Adapter）模式
+
+Client -> Adapter.MethodA -> Adaptee.MethodB
 
 ### 桥接（Bridge）模式
 
+Client -> Bridge1.Function/Bridge2.Function
+
 ### 装饰（Decorator）模式
+
+Client -> Decorator(Component) 
 
 ### 外观（Facade）模式
 
+Client -> Facade -> Complex internal api
+
 ### 享元（Flyweight）模式
+
+Share (Data/Component)
 
 ### 组合（Composite）模式
 
-## 行为类（Behavioral)
+Client -> Composite.Func() -> Components[].Func()
+
+## 行为类（Behavioral)，共11种
 
 ### 模板方法（TemplateMethod）模式
 
+public abstract class Foo {
+
+    public sealed void Do {
+        this.First();
+        this.Second();
+        this.Third();
+    }
+
+    public abstract void First();
+    public abstract void Second();
+    public abstract void Third();
+}
+
 ### 策略（Strategy）模式
+
+Context -> Interface Strategy -> ConcreteStrategy
 
 ### 命令（Command）模式
 
+Caller -> Command -> Receiver(parameter)
+
 ### 职责链（Chain of Responsibility）模式
+
+Logger.Next -> Logger
 
 ### 状态（State）模式
 
+finite-state machine
+
 ### 观察者（Observer）模式
 
+Subject -> Subscribe/Unsubscribe observer -> Notify observer
+
+Event Hander/Hooks etc
+
 ### 中介者（Mediator）模式
+
+Client -> Mediator -> Component(s)
 
 ### 迭代器（Iterator）模式
 
 ### 访问者（Visitor）模式
 
+
+Client.Accept(visitor)
+
 ### 备忘录（Memento）模式
+
+provides the ability to restore an object to its previous state
 
 ### 解释器（Interpreter）模式
 
