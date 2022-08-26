@@ -1,11 +1,11 @@
 # 一、GOF简介
 GOF是设计模式的经典名著Design Patterns: Elements of Reusable Object-Oriented Software（中译本名为《设计模式——可复用面向对象软件的基础》）的四位作者，他们分为是：Elich Gamma、Richard Helm、Ralph Johnson、以及John Vlissides。这四个人常被称为Gang of Four， 即四人组，简称Gof。
 
-他们在书本总结了23个设置模式，以下将给出这23个设计模式的简要说明。
+他们在书本总结了23个设置模式，以下将给出这23个设计模式的简要说明。(1995)
 
 # 二、23种设计模式
 
-## 构建类（Creational），5种
+## 构建类（Creational），5种 (单原工抽建)
 
 ### 单例（Singleton）模式
 
@@ -41,7 +41,7 @@ public interface IFactory {
 
 Director -> Builder -> Build Product
 
-## 结构类（Structural），共7种
+## 结构类（Structural），共7种 （代适桥装外享组）
 
 ### 代理（Proxy）模式
 
@@ -71,7 +71,7 @@ Share (Data/Component)
 
 Client -> Composite.Func() -> Components[].Func()
 
-## 行为类（Behavioral)，共11种
+## 行为类（Behavioral)，共11种 （模策命职状观中迭访备解）
 
 ### 模板方法（TemplateMethod）模式
 
